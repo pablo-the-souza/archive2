@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -10,16 +11,16 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class BoxesController : ControllerBase
     {
-        private readonly IBoxRepository _repo;
-        public BoxesController(IBoxRepository repo)
+        private readonly UnitOfWork unitOfWork;
+        public BoxesController(UnitOfWork unitOfWork)
         {
-            _repo = repo;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Box>>> GetBoxes()
         {
-            var boxes = await _repo.GetBoxesAsync();
+            var boxes = await unitOfWork._BoxRepo.GetBoxesAsync();
 
             return Ok(boxes);
         }
@@ -28,20 +29,20 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Box>> GetBox(int id)
         {
-            return await _repo.GetBoxByIdAsync(id);
+            return await unitOfWork._BoxRepo.GetBoxByIdAsync(id);
         }
 
         [HttpPost]
         public async Task<ActionResult<Box>> PostBox(Box box)
         {
-            await _repo.PostBox(box);
+            await unitOfWork._BoxRepo.PostBox(box);
             return CreatedAtAction("GetBoxes", new { id = box.Id }, box); 
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Box>> Delete(int id)
         {
-            var box = await _repo.DeleteBox(id);
+            var box = await unitOfWork._BoxRepo.DeleteBox(id);
             if (box == null)
             {
                 return NotFound();
@@ -56,7 +57,7 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-            await _repo.PutBox(box);
+            await unitOfWork._BoxRepo.PutBox(box);
             return NoContent();
         }
     }

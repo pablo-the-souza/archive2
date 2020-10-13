@@ -14,12 +14,10 @@ namespace API
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            // Using means it will be dispose of after it's used
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-                // try because we are outside of startup class, so no exception handling available
                 try
                 {
                     var context = services.GetRequiredService<ArchiveContext>();
@@ -34,11 +32,12 @@ namespace API
 
             host.Run();
         }
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
     }
 }

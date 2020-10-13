@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class SecondCreation : Migration
+    public partial class FirstCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(nullable: false),
                     DestructionFlag = table.Column<string>(nullable: false),
                     Reference = table.Column<string>(nullable: true),
@@ -29,12 +29,12 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     PolicyType = table.Column<string>(nullable: false),
                     PolicyNumber = table.Column<string>(nullable: false),
-                    DateStart = table.Column<DateTimeOffset>(nullable: true),
+                    DateStart = table.Column<DateTimeOffset>(nullable: false),
                     DateEnd = table.Column<DateTimeOffset>(nullable: true),
                     Comments = table.Column<string>(nullable: true),
                     BoxId = table.Column<int>(nullable: false)

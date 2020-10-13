@@ -17,8 +17,8 @@ public class BoxRepository : IBoxRepository
     {
         return await _context.Boxes
         .Include(b => b.Policies)
-        .FirstOrDefaultAsync(p => p.Id == id);;
-        
+        .FirstOrDefaultAsync(p => p.Id == id); ;
+
     }
 
     public async Task<IReadOnlyList<Box>> GetBoxesAsync()
@@ -50,9 +50,9 @@ public class BoxRepository : IBoxRepository
     }
 
     public async Task<Box> PutBox(Box box)
-        {
-            _context.Entry(box).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return box;
-        }
+    {
+        _context.Entry(box).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return box;
+    }
 }
